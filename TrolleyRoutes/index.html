@@ -13,12 +13,8 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script>
-// This example creates a 2-pixel-wide red polyline showing
-// the path of William Kingsford Smith's first trans-Pacific flight between
-// Oakland, CA, and Brisbane, Australia.
-// Use the DOM setInterval() function to change the offset of the symbol
-// at fixed intervals.
-function animateCircle() {
+
+function animateArrows() {
     var count = 0;
     window.setInterval(function() {
       count = (count + 1) % 6400;
@@ -52,7 +48,7 @@ var line3;
 var line4;
 var line5;
 
-function HomeControl(controlDiv, map) {
+function RouteControl(controlDiv, map) {
 
   // Set CSS styles for the DIV containing the control
   // Setting padding to 5 px will offset the control
@@ -87,6 +83,7 @@ function HomeControl(controlDiv, map) {
    }
    else{
       Route.setVisible(true);
+      //center on route
       }
   });
 }
@@ -127,6 +124,7 @@ function Route2Control(controlDiv, map) {
    }
    else{
       Route.setVisible(true);
+      //center on route
       }
   });
 }
@@ -167,6 +165,7 @@ function Route3Control(controlDiv, map) {
    }
    else{
       Route.setVisible(true);
+      //center on route
       }
   });
 }
@@ -207,6 +206,7 @@ function Route4Control(controlDiv, map) {
    }
    else{
       Route.setVisible(true);
+      //center on route
       }
   });
 }
@@ -247,6 +247,7 @@ function Route5Control(controlDiv, map) {
    }
    else{
       Route.setVisible(true);
+      //center on route
       }
   });
 }
@@ -262,17 +263,17 @@ function initialize() {
       mapOptions);
       
   // Create the DIV to hold the control and
-  // call the HomeControl() constructor passing
+  // call the RouteControl() constructor passing
   // in this DIV.
-  var homeControlDiv = document.createElement('div');
-  var homeControl = new HomeControl(homeControlDiv, map); 
-  var route2Control = new Route2Control(homeControlDiv, map); 
-  var route3Control = new Route3Control(homeControlDiv, map);
-  var route4Control = new Route4Control(homeControlDiv, map);
-  var route5Control = new Route5Control(homeControlDiv, map);
+  var routeControlDiv = document.createElement('div');
+  var routeControl = new RouteControl(routeControlDiv, map); 
+  var route2Control = new Route2Control(routeControlDiv, map); 
+  var route3Control = new Route3Control(routeControlDiv, map);
+  var route4Control = new Route4Control(routeControlDiv, map);
+  var route5Control = new Route5Control(routeControlDiv, map);
 
-  homeControlDiv.index = 1;
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+  routeControlDiv.index = 1;
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(routeControlDiv);
   
   //Path coordinates
   var Terrace = [
@@ -746,7 +747,7 @@ function initialize() {
     map: map
   });
   
-  animateCircle();
+  animateArrows();
 	
 	// To add the marker to the map, call setMap();
   //marker.setMap(map);
