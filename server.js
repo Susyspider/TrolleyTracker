@@ -9,9 +9,11 @@ var app = express();
 //var pg = require('pg');
 //var conString = "pg://postgres:123@localhost:5432/icom5047";
 
-//server configuration----------------------------------------------------------------------------------
+//SERVER CONFIG ------------------------------------------------------------------------------------------
 
-app.use(express.bodyParser());
+//app.use(express.bodyParser()); 
+app.use(express.json());
+app.use(express.urlencoded());
 
 app.use(function(req, res, next){
  	res.header('Access-Control-Allow-Origin', '*');
@@ -20,7 +22,7 @@ app.use(function(req, res, next){
 	next();
 });
 
-//Server data
+//SERVER DATA --------------------------------------------------------------------------------------------
 var trolleys = require('./appjs/trolley');
 var Trolley = trolleys.Trolley;
 
@@ -32,6 +34,51 @@ var trolleyList = new Array(
 	new Trolley(5,18.214534,-67.139792)
 );
 
-//
+//REST METHODS -------------------------------------------------------------------------------------------
+//Get all trolleys' locations
+app.get("/trolleys", function(req,res){
+	console.log("Get trolleys request received.");
+
+	if(trolleyList.length < 1){
+		res.statusCode = 404;
+		res.json("There are no trolleys to get.");
+	}
+
+	var tempList = new Array();
+	
+	for (var i=0; i < trolleyList.length; ++i){
+		tempList.push(trolleyList[i]);
+	}
+
+	res.statusCode=200;
+	res.json({"trolleys":tempList});
+});
+
+//Get trolley location by id
+app.get("/trolley/:id", function(req,res){
+	console.log("Get trolley #"+ req.params.id +" location request received.");
+	
+	if(trolleyList.length < 1){
+		res.statusCode = 404;
+		res.json("There are no trolleys to get.");
+	}
+	
+	var temp = -1;
+	
+	for (var i=0; i < trolleyList.length; ++i){
+		if(trolleyList[i].id == req.params.id){
+			temp = trolleyList[i];
+		}	
+	}
+	
+	if(temp == -1){
+		res.statusCode = 404;
+		res.json("No trolley with the specified id was found.");
+	}
+
+	res.statusCode=200;
+	res.json({"trolley":temp});
+});
+
 console.log("Server started. Listening on port 8888.");
 app.listen(8888);
