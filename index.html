@@ -13,11 +13,11 @@
     </style>
     <link rel="stylesheet" href="css/jquery.mobile-1.3.1.css" />
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    <!--The geometry library contains several methods that might prove quite useful for our application, such as isLocationOnEdge() and computeLength()-->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
 	<!--script src="js/jquery-1.10.2.js"></script-->
 	<script src="js/jquery.mobile-1.3.1.js"></script>
     <script type="text/javascript" src="appjs/app.js"></script>
+    <script type="text/javascript" src="appjs/markerwithlabel.js"></script>
     <script type="text/javascript" src="appjs/global.js"></script>
     <script>
 
@@ -87,13 +87,13 @@ function RouteControl(controlDiv, map) {
   	
     if(Route.getVisible()){ 
       Route.setVisible(false);
-   }
-   else{
-      Route.setVisible(true);
       var pathlength = google.maps.geometry.spherical.computeLength(Palacio);
       var kms = Math.round(pathlength/1000 * 100) / 100;
       var miles = Math.round(pathlength/1609 * 100) / 100;
-      alert('Path length is supposedly: '+miles+' miles ('+kms+' kilometers)');
+      alert('Path length is supposedly: '+miles+' miles ('+kms+' kilometers). ');
+   }
+   else{
+      Route.setVisible(true);
       //center on route
       }
   });
@@ -334,11 +334,11 @@ function initialize() {
   });
   
   //Stations
-  var myLatlng = new google.maps.LatLng(18.209018,-67.140351);
+  //var myLatlng = new google.maps.LatLng(18.209018,-67.140351);
 
-  var marker = new google.maps.Marker({
-	    position: myLatlng,
-	    title:"Portico"
+  marker = new google.maps.Marker({
+	    position: Palacio[0],
+	    title:"Palacio_start"
 	});
 	
   //ANIMATED SYMBOLS
@@ -463,7 +463,7 @@ function initialize() {
   animateArrows();
 	
   // To add the marker to the map, call setMap();
-  //marker.setMap(map);
+  marker.setMap(map);
   //route1.setMap(map);
   //route2.setMap(map);
   //route3.setMap(map);
@@ -471,6 +471,19 @@ function initialize() {
   //route5.setMap(map);
 }
 
+function chgCoords()
+{
+	var coords;
+	var index = 0;
+	setInterval(function(){
+		coords = Interno_trolley[index % Interno_trolley.length];
+		index++;
+		marker.setPosition(coords);
+		marker.setMap(map);
+	},1000);
+}
+
+window.onload = chgCoords;
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
