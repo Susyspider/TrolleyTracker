@@ -90,7 +90,7 @@ function RouteControl(controlDiv, map) {
       var pathlength = google.maps.geometry.spherical.computeLength(Palacio);
       var kms = Math.round(pathlength/1000 * 100) / 100;
       var miles = Math.round(pathlength/1609 * 100) / 100;
-      alert('Path length is supposedly: '+miles+' miles ('+kms+' kilometers). ');
+      //alert('Path length is supposedly: '+miles+' miles ('+kms+' kilometers). ');
    }
    else{
       Route.setVisible(true);
@@ -337,8 +337,8 @@ function initialize() {
   //var myLatlng = new google.maps.LatLng(18.209018,-67.140351);
 
   marker = new google.maps.Marker({
-	    position: Palacio[0],
-	    title:"Palacio_start"
+	    position: Interno_trolley[0],
+	    title:"Interno_trolley"
 	});
 	
   //ANIMATED SYMBOLS
@@ -397,6 +397,7 @@ function initialize() {
 
   // Create the polyline and add the symbol to it via the 'icons' property.
   line = new google.maps.Polyline({
+  	visible: false,
     path: Palacio,
     strokeColor: '#FF0000',
     strokeOpacity: 0.6,
@@ -409,7 +410,6 @@ function initialize() {
   });
   
   line2 = new google.maps.Polyline({
-  	visible: false,
     path: Interno,
     strokeColor: '#FFFF00',
     strokeOpacity: 0.6,
@@ -479,8 +479,9 @@ function chgCoords()
 		coords = Interno_trolley[index % Interno_trolley.length];
 		index++;
 		marker.setPosition(coords);
-		marker.setMap(map);
-	},1000);
+		//not working :(
+		marker.setVisible(google.maps.geometry.poly.isLocationOnEdge(coords, Interno, 0.0000001));
+	}, 1000);
 }
 
 window.onload = chgCoords;
