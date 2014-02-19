@@ -58,10 +58,10 @@ function initialize() {
 function animateCircle() {
     var count = 0;
     window.setInterval(function() {
-      count = (count + 1) % 200;
+      count = (count + 1) % 100;
 
       var icons = line.get('icons');
-      icons[0].offset = (count / 2) + '%';
+      icons[0].offset = (count / 1) + '%';
       line.set('icons', icons);
   }, 20);
 }

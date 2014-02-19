@@ -1,3 +1,4 @@
+/*
 function getTrolleyLocation(id){
 	$.mobile.loading("show");
 	$.ajax({
@@ -38,3 +39,4 @@ function getTrolleyLocations(){
 		}
 	});	
 };
+*/

@@ -1,35 +1,31 @@
 //TODO debug
 function centerOnPath(path,map) {
-	var maxLat = path[0];
-	var minLat = path[0];
-	var maxLng = path[0];
-	var minLng = path[0];
-
-	for(index = 1; index < path.length; index++){
-		alert(path[0].lat);
-		if(path[index].lat > path[index-1].lat){
-			maxLat = path[index];
+	var maxLat = path.getAt(0).d;
+	var minLat = path.getAt(0).d;
+	var maxLng = path.getAt(0).e;
+	var minLng = path.getAt(0).e;
+	
+	for(index = 1; index < path.getLength(); index++){
+		if(path.getAt(index).d > maxLat){
+			maxLat = path.getAt(index).d;
 		}
 		
-		if(path[index].lat < path[index-1].lat){
-			minLat = path[index];
+		if(path.getAt(index).d < minLat){
+			minLat = path.getAt(index).d;
 		}
 		
-		if(path[index].lng > path[index-1].lng){
-			maxLng = path[index];
+		if(path.getAt(index).e > maxLng){
+			maxLng = path.getAt(index).e;
 		}
 		
-		if(path[index].lng < path[index-1].lng){
-			minLng = path[index];
-		}
-		else{
-			break;
+		if(path.getAt(index).e < minLng){
+			minLng = path.getAt(index).e;
 		}
 	}
-	
+	//console.log("Min Lat: "+minLat+"Max Lat: "+maxLat+"Min Lng: "+minLng+"Max Lng: "+maxLng);
 	var SW = new google.maps.LatLng(minLat,minLng);
 	var NE = new google.maps.LatLng(maxLat,maxLng);
-	
+
 	var bounds = new google.maps.LatLngBounds(SW, NE);
 	map.fitBounds(bounds);
 }
