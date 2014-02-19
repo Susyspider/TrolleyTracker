@@ -89,8 +89,8 @@
 				//var myLatlng = new google.maps.LatLng(18.209018,-67.140351);
 
 				route2_trolley = new google.maps.Marker({
-					position : Interno_trolley[0],
-					title : "Interno_trolley"
+					position : interno_trolley[0],
+					title : "interno_trolley"
 				});
 
 				//ANIMATED SYMBOLS-------------------------------------------------------------------------------------
@@ -222,11 +222,11 @@
 				var coords;
 				var index = 0;
 				setInterval(function() {
-					coords = Interno_trolley[index % Interno_trolley.length];
+					coords = interno_trolley[index % interno_trolley.length];
 					index++;
 					route2_trolley.setVisible(google.maps.geometry.poly.isLocationOnEdge(coords, line2, 0.0005));
 					route2_trolley.setPosition(coords);
-				}, 1000);
+				}, 100);
 			}
 
 			window.onload = chgCoords();
