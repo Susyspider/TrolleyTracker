@@ -11,50 +11,15 @@
 				padding: 0px
 			}
 		</style>
-		<link rel="stylesheet" href="css/jquery.mobile-1.3.1.css" />
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
-		<!--script src="js/jquery-1.10.2.js"></script-->
-		<script src="js/jquery.mobile-1.3.1.js"></script>
-		<script type="text/javascript" src="appjs/app.js"></script>
-		<script type="text/javascript" src="appjs/markerwithlabel.js"></script>
-		<script type="text/javascript" src="appjs/global.js"></script>
-		<script type="text/javascript" src="appjs/interface.js"></script>
-		<!--script type="text/javascript" src="appjs/routes.js"></script-->
+		<script type="text/javascript" src="appjs/vars.js"></script>
+		<script type="text/javascript" src="appjs/func.js"></script>
 		<script>
 
-			function getPathLength(polyline) {
-				return;
-			}
-
-			function animateArrows() {
-				var count = 0;
-				window.setInterval(function() {
-					count = (count + 1) % 6400;
-
-					var icons = line.get('icons');
-					icons[0].offset = (count / 64) + '%';
-					line.set('icons', icons);
-
-					var icons2 = line2.get('icons');
-					icons2[0].offset = (count / 64) + '%';
-					line2.set('icons', icons2);
-
-					var icons3 = line3.get('icons');
-					icons3[0].offset = (count / 64) + '%';
-					line3.set('icons', icons3);
-
-					var icons4 = line4.get('icons');
-					icons4[0].offset = (count / 64) + '%';
-					line4.set('icons', icons4);
-
-					var icons5 = line5.get('icons');
-					icons5[0].offset = (count / 64) + '%';
-					line5.set('icons', icons5);
-				}, 20);
-			}
-
 			function initialize() {
+				
+				// MAP PROPERTIES -------------------------------------------------------------------------------------
+				var UPRM = new google.maps.LatLng(18.209438, -67.140543);
 				
 				var mapOptions = {
 					zoom : 17,
@@ -65,40 +30,15 @@
 
 				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-				//limit zoom levels
 				var opt = {
 					minZoom : 16,
 					maxZoom : 18
 				};
 				
 				map.setOptions(opt);
-
-				var controlDiv = document.createElement('div');
-
-				var routeControl = new RouteControl(controlDiv, map);
-				var route2Control = new Route2Control(controlDiv, map);
-				var route3Control = new Route3Control(controlDiv, map);
-				var route4Control = new Route4Control(controlDiv, map);
-				var route5Control = new Route5Control(controlDiv, map);
-				var defaultViewControl = new DefaultViewControl(controlDiv, map);
-
-				controlDiv.index = 1;
-				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
-
-				//Stations
-				//var myLatlng = new google.maps.LatLng(18.209018,-67.140351);
-
-				route2_trolley = new google.maps.Marker({
-					position : interno_trolley[0],
-					title : "interno_trolley"
-				});
-
+				
 				//ANIMATED SYMBOLS-------------------------------------------------------------------------------------
-				// Define the symbol, using one of the predefined paths ('CIRCLE')
-				// supplied by the Google Maps JavaScript API.
-
-				//Palacio
-				var lineSymbol = {
+				var route1Symbol = {
 					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 					scale : 5,
 					strokeColor : '#000000',
@@ -107,8 +47,7 @@
 					fillColor : '#FF0000'
 				};
 
-				//Interno
-				var lineSymbol2 = {
+				var route2Symbol  = {
 					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 					scale : 5,
 					strokeColor : '#000000',
@@ -117,8 +56,7 @@
 					fillColor : '#FFFF00'
 				};
 
-				//Terrace
-				var lineSymbol3 = {
+				var route3Symbol = {
 					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 					scale : 5,
 					strokeColor : '#000000',
@@ -127,8 +65,7 @@
 					fillColor : '#FF00FF'
 				};
 
-				//Darlington
-				var lineSymbol4 = {
+				var route4Symbol = {
 					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 					scale : 5,
 					strokeColor : '#000000',
@@ -137,8 +74,7 @@
 					fillColor : '#00FF00'
 				};
 
-				//Zoologico
-				var lineSymbol5 = {
+				var route5Symbol = {
 					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 					scale : 5,
 					strokeColor : '#000000',
@@ -148,88 +84,101 @@
 				};
 				
 				// ROUTE POLYLINES ------------------------------------------------------------------------------------
-				// Create the polyline and add the symbol to it via the 'icons' property.
-				line = new google.maps.Polyline({
+				var route1 = new google.maps.Polyline({
 					visible : false,
 					path : Palacio,
 					strokeColor : '#FF0000',
 					strokeOpacity : 0.6,
 					strokeWeight : 10,
 					icons : [{
-						icon : lineSymbol,
+						icon : route1Symbol,
 						offset : '100%'
 					}],
 					map : map
 				});
 
-				line2 = new google.maps.Polyline({
+				var route2 = new google.maps.Polyline({
 					path : Interno,
 					strokeColor : '#FFFF00',
 					strokeOpacity : 0.6,
 					strokeWeight : 10,
 					icons : [{
-						icon : lineSymbol2,
+						icon : route2Symbol,
 						offset : '100%'
 					}],
 					map : map
 				});
 
-				line3 = new google.maps.Polyline({
+				var route3 = new google.maps.Polyline({
 					visible : false,
 					path : Terrace,
 					strokeColor : '#FF00FF',
 					strokeOpacity : 0.6,
 					strokeWeight : 10,
 					icons : [{
-						icon : lineSymbol3,
+						icon : route3Symbol,
 						offset : '100%'
 					}],
 					map : map
 				});
 
-				line4 = new google.maps.Polyline({
+				var route4 = new google.maps.Polyline({
 					visible : false,
 					path : Darlington,
 					strokeColor : '#00FF00',
 					strokeOpacity : 0.6,
 					strokeWeight : 10,
 					icons : [{
-						icon : lineSymbol4,
+						icon : route4Symbol,
 						offset : '100%'
 					}],
 					map : map
 				});
 
-				line5 = new google.maps.Polyline({
+				var route5 = new google.maps.Polyline({
 					visible : false,
 					path : Zoologico,
 					strokeColor : '#00FFFF',
 					strokeOpacity : 0.6,
 					strokeWeight : 10,
 					icons : [{
-						icon : lineSymbol5,
+						icon : route5Symbol,
 						offset : '100%'
 					}],
 					map : map
 				});
+				
+				// UI Controls ----------------------------------------------------------------------------------------
+				var controlDiv = document.createElement('div');
+				
+				var route1Control = new RouteControl(controlDiv, map, 'Click to toggle Route 1 visibility', 'Palacio', route1);
+				var route2Control = new RouteControl(controlDiv, map, 'Click to toggle Route 2 visibility', 'Interno', route2);
+				var route3Control = new RouteControl(controlDiv, map, 'Click to toggle Route 3 visibility', 'Terrace', route3);
+				var route4Control = new RouteControl(controlDiv, map, 'Click to toggle Route 4 visibility', 'Darlington', route4);
+				var route5Control = new RouteControl(controlDiv, map, 'Click to toggle Route 5 visibility', 'Zoologico', route5);
+				var defaultViewControl = new DefaultViewControl(controlDiv, map, UPRM);
 
-				animateArrows();
+				controlDiv.index = 1;
+				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
+
+				// TROLLEY MARKERS ------------------------------------------------------------------------------------
+				var route2_trolley = new google.maps.Marker({
+					position : interno_trolley[0],
+					title : "interno_trolley"
+				});
+				
+				// OTHER FUNCS ----------------------------------------------------------------------------------------
+				animateSymbol(route1);
+				animateSymbol(route2);
+				animateSymbol(route3);
+				animateSymbol(route4);
+				animateSymbol(route5);
+				
+				animateMarker(route2_trolley,interno_trolley,route2);
+				
 				route2_trolley.setMap(map);
 			}
-			
-			//animates the marker simulating trolley movement across Route 2
-			function chgCoords() {//var trolley?
-				var coords;
-				var index = 0;
-				setInterval(function() {
-					coords = interno_trolley[index % interno_trolley.length];
-					index++;
-					route2_trolley.setVisible(google.maps.geometry.poly.isLocationOnEdge(coords, line2, 0.0005));
-					route2_trolley.setPosition(coords);
-				}, 100);
-			}
 
-			window.onload = chgCoords();
 			google.maps.event.addDomListener(window, 'load', initialize);
 		</script>
 	</head>

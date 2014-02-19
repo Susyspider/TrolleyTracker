@@ -1,3 +1,7 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+// VARS - The only reason these are here is because they occupy too much darn space     //
+//////////////////////////////////////////////////////////////////////////////////////////
+
 //Paths----------------------------------------------------------------------------------------------------------------
 var Terrace = [
     new google.maps.LatLng(18.2108960750905,-67.1449605506928),
@@ -1108,22 +1112,3 @@ new google.maps.LatLng(18.2127431572,-67.142790649),
 new google.maps.LatLng(18.2127782044,-67.1427788083),
 new google.maps.LatLng(18.2128132517,-67.1427669677)
 ];
-
-
-//Other global variables-----------------------------------------------------------------------------------------------
-var UPRM = new google.maps.LatLng(18.209438, -67.140543);
-
-var line;
-var line2;
-var line3;
-var line4;
-var line5;
-
-var route2_trolley;
-/*
-var route1;
-var route2;
-var route3;
-var route4;
-var route5;
-*/
