@@ -15,8 +15,22 @@
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
 		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
 		<script type="text/javascript" src="appjs/vars.js"></script>
-		<script type="text/javascript" src="appjs/func.js"></script>
+		<script type="text/javascript" src="appjs/func.js"></script>		
+		<script type="text/javascript" src="http://127.0.0.1:8080/socket.io/socket.io.js"></script>
 		<script>
+		
+			try {
+				var iosocket = io.connect("http://127.0.0.1:8080");
+			} catch(e) {
+				console.log(e);
+			}
+			
+			if (iosocket !== undefined) {
+				iosocket.on('mapUpdate', function(update){
+					console.log("Update: " + update);
+				});
+			}
+			
 
 			function initialize() {
 				

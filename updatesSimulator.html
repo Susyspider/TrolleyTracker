@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>TrolleyTracker: Server App Test Tool</title>
+
+		<link rel="stylesheet" href="main.css">
+
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>		
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>		
+		<script type="text/javascript" src="appjs/global.js"></script>
+		<script src="http://127.0.0.1:8080/socket.io/socket.io.js"></script>
+		
+		<script type="text/javascript">
+		
+			try {
+				// An io.socket to communicate with server
+				var iosocket = io.connect("http://127.0.0.1:8080");
+			} catch (e) {
+				// Log error
+				console.log(e);
+			}
+			
+			iosocket.on('mapUpdate', function(update){
+				console.log("update received");
+			});
+
+			// Collection of trolley objects
+			var trolleys = {};
+
+			// Executed when DOM ready
+			$(document).ready(function() {
+
+				// Bind click event to add button
+				$('.input input[type=submit]').on('click', function() {
+					
+					// Trolley name and route
+					var trolleyName = "T" + Date.now();
+					var trolleyRoute = $('.routeOptions').val();
+
+					// Create trolley object and store in array
+					var newTrolley = {
+						name : trolleyName,
+						route : trolleyRoute,
+						currIndex : 0,
+						on : 0,
+						lat : 0,
+						lng : 0,
+						date : 0,
+						interval : 0
+					};
+
+					// Store in trolleys collection
+					trolleys[trolleyName] = newTrolley;
+
+					// Add trolley div to container div
+					var container = $(this).parent().parent();
+					container.prepend("<div class='trolley' data-trolleyName='" + trolleyName + "' onclick='start(\"" + trolleyName + "\");'>" + trolleyName + " [on:0]</div>");
+				});
+			});
+
+			function start(trolleyName) {
+
+				// Get trolley by name
+				var trolley = trolleys[trolleyName];
+
+				if (!trolley.on) {
+					trolley.interval = setInterval(function() {
+						// TODO: 
+						/* l = routes[trolley.route].length;
+						 * trolley.latLng = routes[trolley.route][(trolley.currIndex + 1) % l];						
+						 */						
+						var nCoords = interno_trolley.length; // interno_trolley defined in global.js
+						
+						// Update current index
+						trolley.currIndex = (trolley.currIndex + 1) % nCoords;
+						
+						// Get latLng object						
+						var latLng = interno_trolley[trolley.currIndex];
+						
+						// Update trolley object lat and lng						
+						trolley.lat = latLng.lat();
+						trolley.lng = latLng.lng();						
+
+						// Send updates to console
+						console.log(trolley.name + " " + trolley.lat + " " + trolley.lng);
+
+						// Send updates to console through websockets
+						if (iosocket !== undefined) {
+							iosocket.emit('update', trolley);
+						}
+					}, 5000);
+				} else {
+					// trolley off
+					clearInterval(trolley.interval);
+				}
+
+				// change trolley on status
+				trolley.on = (trolley.on + 1) % 2;
+
+				// update trolley div status (not necessary, eyecandy)
+				$("div[data-trolleyName=" + trolleyName + "]").text(trolleyName + " [on:" + trolley.on + "]");
+			}
+
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div id="trolleys">
+				<!-- trolleys are dynamically inserted here -->
+			</div>
+			<!-- /trolleys -->
+
+			<div class="input">
+				<select class="routeOptions">
+					<option value="interno">Interno</option>
+					<option value="palacio">Palacio</option>
+					<option value="darlington">Darlington</option>
+					<option value="zoo">Zoo</option>
+				</select>
+				<input type="submit" value="Add Trolley" />
+			</div>
+
+		</div><!-- /container -->
+	</body>
+</html>
