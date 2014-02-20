@@ -11,7 +11,9 @@
 				padding: 0px
 			}
 		</style>
+		<link rel="stylesheet" type="text/css" href="css/layout.css">
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
+		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
 		<script type="text/javascript" src="appjs/vars.js"></script>
 		<script type="text/javascript" src="appjs/func.js"></script>
 		<script>
@@ -167,22 +169,216 @@
 					title : "interno_trolley"
 				});
 				
+				// TROLLEY STOP MARKERS -------------------------------------------------------------------------------
+				var busstop = 'images/icons-simple/busstop.png';
+				
+				var pala = new google.maps.Marker({
+					position : new google.maps.LatLng(18.205942,-67.136433),
+					title : "Palacio",
+					icon: busstop
+				});
+				
+				var fisi = new google.maps.Marker({
+					position : new google.maps.LatLng(18.210868,-67.139643),
+					title : "Puente Fisica",
+					icon: busstop
+				});
+				
+				var bibl = new google.maps.Marker({
+					position : new google.maps.LatLng(18.211787,-67.14196),
+					title : "Biblioteca",
+					icon: busstop
+				});
+				
+				var pati = new google.maps.Marker({
+					position : new google.maps.LatLng(18.211283,-67.140823),
+					title : "Patio Central",
+					icon: busstop
+				});
+				
+				var admi = new google.maps.Marker({
+					position : new google.maps.LatLng(18.216771,-67.143049),
+					title : "Administracion de Empresas",
+					icon: busstop
+				});
+				
+				var civi = new google.maps.Marker({
+					position : new google.maps.LatLng(18.21458,-67.139772),
+					title : "Ingenieria Civil",
+					icon: busstop
+				});
+				
+				var stef = new google.maps.Marker({
+					position : new google.maps.LatLng(18.20968,-67.139021),
+					title : "Stefani",
+					icon: busstop
+				});
+				
+				var port = new google.maps.Marker({
+					position : new google.maps.LatLng(18.208957,-67.140322),
+					title : "Portico",
+					icon: busstop
+				});
+				
+				var barc = new google.maps.Marker({
+					position : new google.maps.LatLng(18.207543,-67.139935),
+					title : "Barcelona",
+					icon: busstop
+				});
+				
+				var asis = new google.maps.Marker({
+					position : new google.maps.LatLng(18.208648,-67.141432),
+					title : "Asistencia Economica",
+					icon: busstop
+				});
+				
+				var cent = new google.maps.Marker({
+					position : new google.maps.LatLng(18.209935,-67.141472),
+					title : "Centro de Estudiantes",
+					icon: busstop
+				});
+				
+				var entr = new google.maps.Marker({
+					position : new google.maps.LatLng(18.211064,-67.144672),
+					title : "Entrada Principal",
+					icon: busstop
+				});
+				
+				var darl = new google.maps.Marker({
+					position : new google.maps.LatLng(18.205683,-67.146185),
+					title : "Darlington",
+					icon: busstop
+				});
+				
+				var gimn = new google.maps.Marker({
+					position : new google.maps.LatLng(18.212119,-67.143776),
+					title : "Gimnasio",
+					icon: busstop
+				});
+				
+				var finc = new google.maps.Marker({
+					position : new google.maps.LatLng(18.215461,-67.146341),
+					title : "Finca Alzamora",
+					icon: busstop
+				});
+				
+				var terr = new google.maps.Marker({
+					position : new google.maps.LatLng(18.215375,-67.14802),
+					title : "Parque Terrace",
+					icon: busstop
+				});
+				
+				var pine = new google.maps.Marker({
+					position : new google.maps.LatLng(18.210638,-67.143591),
+					title : "Pinero",
+					icon: busstop
+				});
+				
+				var regi = new google.maps.Marker({
+					position : new google.maps.LatLng(18.217306,-67.144844),
+					title : "Registrador",
+					icon: busstop
+				});
+				
+				var biol = new google.maps.Marker({
+					position : new google.maps.LatLng(18.211762,-67.138246),
+					title : "Biologia",
+					icon: busstop
+				});
+				
+				var zool = new google.maps.Marker({
+					position : new google.maps.LatLng(18.215813,-67.133396),
+					title : "Zoologico",
+					icon: busstop
+				});
+				
+				//var atle
+				
 				// OTHER FUNCS ----------------------------------------------------------------------------------------
+				pala.setMap(map);
+				fisi.setMap(map);
+				bibl.setMap(map);
+				pati.setMap(map);
+				admi.setMap(map);
+				civi.setMap(map);
+				stef.setMap(map);
+				port.setMap(map);
+				barc.setMap(map);
+				asis.setMap(map);
+				cent.setMap(map);
+				entr.setMap(map);
+				darl.setMap(map);
+				gimn.setMap(map);
+				finc.setMap(map);
+				terr.setMap(map);
+				pine.setMap(map);
+				regi.setMap(map);
+				biol.setMap(map);
+				zool.setMap(map);
+				
 				animateSymbol(route1);
 				animateSymbol(route2);
 				animateSymbol(route3);
 				animateSymbol(route4);
 				animateSymbol(route5);
 				
-				animateMarker(route2_trolley,interno_trolley,route2);
+				addMarkerListener(map,pala);
+			    addMarkerListener(map,fisi);
+			    addMarkerListener(map,bibl);
+			    addMarkerListener(map,pati);
+			    addMarkerListener(map,admi);
+			    addMarkerListener(map,civi);
+			    addMarkerListener(map,stef);
+			    addMarkerListener(map,port);
+			    addMarkerListener(map,barc);
+			    addMarkerListener(map,asis);
+			    addMarkerListener(map,entr);
+			    addMarkerListener(map,darl);
+			    addMarkerListener(map,gimn);
+			    addMarkerListener(map,finc);
+			    addMarkerListener(map,terr);
+			    addMarkerListener(map,pine);
+			    addMarkerListener(map,regi);
+			    addMarkerListener(map,biol);
+			    addMarkerListener(map,zool);
 				
 				route2_trolley.setMap(map);
+				
+				animateMarker(route2_trolley,interno_trolley,route2);
+				
+				// INFOBOX --------------------------------------------------------------------------------------------
+				var infobox = new InfoBox({
+			         content: document.getElementById("infobox"),
+			         disableAutoPan: false,
+			         maxWidth: 150,
+			         pixelOffset: new google.maps.Size(-140, 0),
+			         zIndex: null,
+			         boxStyle: {
+			            background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat",
+			            opacity: 0.75,
+			            width: "280px"
+			        },
+			        closeBoxMargin: "12px 4px 2px 2px",
+			        closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+			        infoBoxClearance: new google.maps.Size(1, 1)
+			    });
+			    
+			    google.maps.event.addListener(cent, 'click', function() {
+			        infobox.open(map, this);
+			        map.panTo(cent.getPosition());
+			    });			    
 			}
 
 			google.maps.event.addDomListener(window, 'load', initialize);
+
 		</script>
 	</head>
 	<body>
 		<div id="map-canvas"></div>
+		<div class="infobox-wrapper">
+		    <div id="infobox">
+		        <b><u>Centro de Estudiantes</b></u><br/>Terrace<br/>Interno
+		    </div>
+		</div>
 	</body>
 </html>

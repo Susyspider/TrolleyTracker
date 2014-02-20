@@ -1,3 +1,9 @@
+function addMarkerListener(map,marker){
+	google.maps.event.addListener(marker, 'click', function() {
+        map.panTo(marker.getPosition());
+    });
+}
+
 function animateSymbol(polyline) {
 	var count = 0;
 	var step = 64;
@@ -19,6 +25,15 @@ function animateMarker(marker,marker_path,polyline) {
 		marker.setVisible(google.maps.geometry.poly.isLocationOnEdge(coords, polyline, 0.0005));
 		marker.setPosition(coords);
 	}, 100);
+}
+
+function animateMarker2(update) {
+	var tname;
+	var tlatlng;
+	
+	//if id exists, update position to tlatlng
+	//if id is new, create marker with initial pos tlatlng
+	//if trolley has been inactive for a looong while, hide/remove marker object?
 }
 
 function centerOnPath(path,map) {
