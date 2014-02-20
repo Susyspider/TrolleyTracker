@@ -1,3 +1,28 @@
+function closestPointOnPath(latlng,path,map){
+	var coord = path[0];
+	var temp;
+	for(index = 1; index < path.length; index++){
+		temp = google.maps.geometry.spherical.computeDistanceBetween(latlng,path[index]);
+		if(temp < google.maps.geometry.spherical.computeDistanceBetween(latlng,coord)){
+			coord = path[index];
+		}
+	}
+	
+	//place marker
+	//return {"coord":coord,"distance":min};
+	var A = new google.maps.Marker({
+		position : latlng
+	});
+	var B = new google.maps.Marker({
+		position : coord
+	});
+	
+	A.setMap(map);
+	B.setMap(map);
+	
+	console.log(google.maps.geometry.spherical.computeDistanceBetween(latlng,coord));
+}
+
 function addMarkerListener(map,marker){
 	google.maps.event.addListener(marker, 'click', function() {
         map.panTo(marker.getPosition());

@@ -361,6 +361,8 @@
 				route2_trolley.setMap(map);
 				
 				animateMarker(route2_trolley,interno_trolley,route2);
+				closestPointOnPath((new google.maps.LatLng(18.208134,-67.138075)),route1.getPath().getArray(),map);
+				
 				
 				// INFOBOX --------------------------------------------------------------------------------------------
 				var infobox = new InfoBox({
@@ -382,7 +384,8 @@
 			    google.maps.event.addListener(cent, 'click', function() {
 			        infobox.open(map, this);
 			        map.panTo(cent.getPosition());
-			    });			    
+			    });
+			        
 			}
 
 			google.maps.event.addDomListener(window, 'load', initialize);
