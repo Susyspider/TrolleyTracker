@@ -35,6 +35,7 @@
 			
 
 			function initialize() {
+				//include vars.js
 				
 				// MAP PROPERTIES -------------------------------------------------------------------------------------
 				var UPRM = new google.maps.LatLng(18.209438, -67.140543);
@@ -360,10 +361,18 @@
 				
 				route2_trolley.setMap(map);
 				
-				animateMarker(route2_trolley,interno_trolley,route2);
-				closestPointOnPath((new google.maps.LatLng(18.208134,-67.138075)),route1.getPath().getArray(),map);
+				//animateMarker(route2_trolley,interno_trolley,route2);
+				animateMarker(route2_trolley,interno_trolley,route2,fisi.getPosition());
 				
+				var mymarker = new google.maps.Marker({
+					position : new google.maps.LatLng(18.2088,-67.1440),
+					draggable : true
+				});
 				
+				//draggable marker and auto marker on closest point in route
+				//mymarker.setMap(map);
+				//markerDropListener(mymarker,interno_trolley,map);
+						
 				// INFOBOX --------------------------------------------------------------------------------------------
 				var infobox = new InfoBox({
 			         content: document.getElementById("infobox"),
