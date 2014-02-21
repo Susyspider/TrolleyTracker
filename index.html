@@ -28,8 +28,12 @@
 			}
 			
 			if (iosocket !== undefined) {
+				var tarray = [];
+
 				iosocket.on('mapUpdate', function(update){
-					console.log("Update: " + update);
+					//console.log("Update: " + update);
+					var upd = new Object(eval("(" + update + ")"));
+					applyUpdate(tarray,upd);
 				});
 			}
 			
@@ -362,7 +366,7 @@
 				route2_trolley.setMap(map);
 				
 				//animateMarker(route2_trolley,interno_trolley,route2);
-				animateMarker(route2_trolley,interno_trolley,route2,fisi.getPosition());
+				//animateMarker(route2_trolley,interno_trolley,route2,fisi.getPosition());
 				
 				var mymarker = new google.maps.Marker({
 					position : new google.maps.LatLng(18.2088,-67.1440),

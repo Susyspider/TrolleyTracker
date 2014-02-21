@@ -97,37 +97,61 @@ function animateSymbol(polyline) {
 	}, 20);
 }
 
-/*function animateMarker(marker,marker_path,polyline) {
-	var coords;
-	var index = 0;
-	setInterval(function() {
-		coords = marker_path[index % marker_path.length];
-		index++;
-		marker.setVisible(google.maps.geometry.poly.isLocationOnEdge(coords, polyline, 0.0005));
-		marker.setPosition(coords);
-	}, 100);
-}*/
-
+//edited
 function animateMarker(tmarker,tmarker_path,rpolyline,slatlng) {
-	var tlatlng;
-	var index = 0;
-	setInterval(function() {
-		tlatlng = tmarker_path[index % tmarker_path.length];
-		index++;
-		tmarker.setVisible(google.maps.geometry.poly.isLocationOnEdge(tlatlng, rpolyline, 0.0005));
-		tmarker.setPosition(tlatlng);
-		var dist = getDistanceAcrossPath(slatlng,tlatlng,tmarker_path);
-		console.log("Length1: "+dist.len1+"m. Length2: "+dist.len2+" m.");
-	}, 100);
+	if (arguments.length == 3) {
+		var coords;
+		var index = 0;
+		setInterval(function() {
+			coords = tmarker_path[index % tmarker_path.length];
+			index++;
+			tmarker.setVisible(google.maps.geometry.poly.isLocationOnEdge(coords, rpolyline, 0.0005));
+			tmarker.setPosition(coords);
+		}, 100);
+	} else if (arguments.length == 4) {
+		var tlatlng;
+		var index = 0;
+		setInterval(function() {
+			tlatlng = tmarker_path[index % tmarker_path.length];
+			index++;
+			tmarker.setVisible(google.maps.geometry.poly.isLocationOnEdge(tlatlng, rpolyline, 0.0005));
+			tmarker.setPosition(tlatlng);
+			var dist = getDistanceAcrossPath(slatlng,tlatlng,tmarker_path);
+			console.log("Length1: "+dist.len1+"m. Length2: "+dist.len2+" m.");
+		}, 100);
+	}
 }
 
-function animateMarker2(update) {
-	var tname;
-	var tlatlng;
+//new
+function applyUpdate(tarray,upd) {
+	var date = new Date(upd.date*1000);
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
 	
-	//if id exists, update position to tlatlng
-	//if id is new, create marker with initial pos tlatlng
-	//if trolley has been inactive for a looong while, hide/remove marker object?
+	var tname = upd.name;
+	var tlatlng = new google.maps.LatLng(upd.lat,upd.lng);
+	var formattedTime = hours + ':' + minutes + ':' + seconds;
+	
+	console.log("Trolley: "+tname+", Coords: "+tlatlng+", Date: "+formattedTime);
+	
+	for (var i = 0; i < tarray.length; i++) {
+	    if (tarray[i].name == tname){
+	    	tarray[i].marker.setPosition(tlatlng);
+	    	return;
+	    }
+	}
+	
+	//trolley was not found, create trolley and add to tarray
+	var troll = new google.maps.Marker({
+		position : tlatlng,
+		title    : tname
+	});
+		
+	troll.setMap(map);
+	upd.marker = troll;
+	tarray.push(upd);
+	//if trolley has been inactive for a looong while, remove object
 }
 
 function centerOnPath(path,map) {
